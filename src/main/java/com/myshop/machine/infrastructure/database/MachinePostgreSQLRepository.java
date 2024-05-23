@@ -57,7 +57,7 @@ public class MachinePostgreSQLRepository implements MachineRepository{
     }
 
     @Override
-    public Machine updateMachine(Long id, Machine machine) {
+    public Machine updateMachine(Machine machine) {
         return postgreSQLDatabase.save(machine);
     }
 

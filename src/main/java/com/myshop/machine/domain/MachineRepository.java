@@ -12,7 +12,7 @@ public interface MachineRepository {
 
     Machine addMachine(Machine machine);
 
-    Machine updateMachine(Long id, Machine machine);
+    Machine updateMachine(Machine machine);
 
     void deleteMachineById(Long id);
 }

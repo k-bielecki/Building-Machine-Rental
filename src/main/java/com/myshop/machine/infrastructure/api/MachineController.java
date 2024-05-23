@@ -24,10 +24,10 @@ public class MachineController {
         this.machineFacade = machineFacade;
     }
 
-    @GetMapping("/machines")
-    public List<Machine> getAllMachines(){
-        return machineFacade.getAllMachines();
-    }
+//    @GetMapping("/machines")
+//    public List<Machine> getAllMachines(){
+//        return machineFacade.getAllMachines();
+//    }
 
     @GetMapping("/machines")
     public List<Machine> getSortedMachines (@RequestParam(value = "sortType", required = false, defaultValue = "NAME_ASC") String machineSortType,
@@ -42,17 +42,38 @@ public class MachineController {
     }
 
     @PostMapping("/machines")
-    public Machine addMachine(@RequestBody Machine machine){
-        return machineFacade.addMachine(machine);
+    public Machine addMachine(@RequestBody MachineDto machineDto){
+
+        return machineFacade.addMachine(mapMachine(machineDto, EMPTY_ID));
     }
 
     @PutMapping("/machines/{id}")
-    public Machine updateMachine(@PathVariable Long id, @RequestBody Machine machine){
-        return machineFacade.updateMachine(id, machine);
+    public Machine updateMachine(@PathVariable Long id, @RequestBody MachineDto machineDto){
+        return machineFacade.updateMachine(mapMachine(machineDto, id));
     }
 
     @DeleteMapping("/machines/{id}")
     public void deleteMachine(@PathVariable Long id){
         machineFacade.deleteMachineById(id);
+    }
+
+    private static Machine mapMachine(MachineDto machineDto, Long id){
+        return Machine.builder()
+                .id(id)
+                .name(machineDto.getName())
+                .pricePerDay(machineDto.getPricePerDay())
+                .rented(machineDto.isRented())
+                .condition(machineDto.getCondition())
+                .details(mapMachineDetails(machineDto.getDetailsDto()))
+                .build();
+    }
+
+    private static MachineDetails mapMachineDetails(MachineDetailsDto machineDetailsDto){
+        return MachineDetails.builder()
+                .machineHour(machineDetailsDto.getMachineHour())
+                .weight(machineDetailsDto.getWeight())
+                .horsePower(machineDetailsDto.getHorsePower())
+                .category(machineDetailsDto.getCategory())
+                .build();
     }
 }

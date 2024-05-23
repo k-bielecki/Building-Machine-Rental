@@ -35,9 +35,9 @@ class MachineService {
         return machineRepository.addMachine(machine);
     }
 
-    Machine updateMachine(Long id, Machine machine) {
+    Machine updateMachine(Machine machine) {
         machineValidator.validateMachine(machine);
-        return machineRepository.updateMachine(id, machine);
+        return machineRepository.updateMachine(machine);
     }
 
     void deleteMachineById(Long id) {

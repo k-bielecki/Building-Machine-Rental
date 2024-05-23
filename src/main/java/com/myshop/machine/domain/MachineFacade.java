@@ -26,8 +26,8 @@ public class MachineFacade {
         return machineService.addMachine(machine);
     }
 
-    public Machine updateMachine(Long id, Machine machine){
-        return machineService.updateMachine(id, machine);
+    public Machine updateMachine(Machine machine){
+        return machineService.updateMachine(machine);
     }
 
     public void deleteMachineById(Long id){

@@ -95,7 +95,7 @@ class MachineFacadeTest {
         void shouldUpdateMachine() {
             //given
             //when
-            machineFacade.updateMachine(1L, Machine.builder().id(1L).name("KomatsuUpdated").pricePerDay(new BigDecimal(140)).condition(MachineCondition.GOOD).rented(false).build());
+            machineFacade.updateMachine(Machine.builder().id(1L).name("KomatsuUpdated").pricePerDay(new BigDecimal(140)).condition(MachineCondition.GOOD).rented(false).build());
             Machine result = machineFacade.getMachineById(1L);
             //then
             assertEquals(1L, result.getId());

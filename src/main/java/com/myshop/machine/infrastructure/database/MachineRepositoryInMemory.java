@@ -45,8 +45,8 @@ public class MachineRepositoryInMemory implements MachineRepository {
     }
 
     @Override
-    public Machine updateMachine(Long id, Machine machine) {
-        return machineRepositoryMap.put(id, machine);
+    public Machine updateMachine(Machine machine) {
+        return machineRepositoryMap.put(machine.getId(), machine);
     }
 
     @Override
