@@ -6,6 +6,8 @@ public interface MachineRepository {
 
     List<Machine> getAllMachines();
 
+    List<Machine> getAllMachinesSortedWithPagination(MachineSortType machineSortType, Long offset, Long limit);
+
     Machine getMachineById(Long id);
 
     Machine addMachine(Machine machine);

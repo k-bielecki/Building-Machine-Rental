@@ -14,6 +14,10 @@ public class MachineFacade {
         return machineService.getAllMachines();
     }
 
+    public List<Machine> getSortedMachines(String machineSortType, Long offset, Long limit){
+        return machineService.getAllMachinesSortedWithPagination(machineSortType, offset, limit);
+    }
+
     public Machine getMachineById(Long id){
         return machineService.getMachineById(id);
     }

@@ -1,6 +1,6 @@
 package com.myshop.machine.domain;
 
-enum MachineCondition {
+public enum MachineCondition {
     PERFECT,
     VERY_GOOD,
     GOOD,

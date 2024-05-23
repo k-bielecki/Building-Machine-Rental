@@ -1,6 +1,6 @@
 package com.myshop.machine.domain;
 
-public enum MachineSort {
+public enum MachineSortType {
     PRICE_ASC,
     PRICE_DESC,
     NAME_ASC,

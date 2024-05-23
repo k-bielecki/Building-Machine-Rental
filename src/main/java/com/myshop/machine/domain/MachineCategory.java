@@ -1,6 +1,6 @@
 package com.myshop.machine.domain;
 
-enum MachineCategory {
+public enum MachineCategory {
     EXCAVATOR,
     BULLDOZER,
     WHEELED_LOADER,

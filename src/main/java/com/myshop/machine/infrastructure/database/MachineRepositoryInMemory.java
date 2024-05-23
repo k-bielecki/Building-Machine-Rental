@@ -1,9 +1,13 @@
 package com.myshop.machine.infrastructure.database;
 
+import com.myshop.machine.domain.InvalidMachineSortTypeException;
 import com.myshop.machine.domain.Machine;
 import com.myshop.machine.domain.MachineRepository;
+import com.myshop.machine.domain.MachineSortType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,13 +22,21 @@ public class MachineRepositoryInMemory implements MachineRepository {
     }
 
     @Override
+    public List<Machine> getAllMachinesSortedWithPagination(MachineSortType machineSortType, Long offset, Long limit) {
+        return machineRepositoryMap.values().stream()
+                .sorted(getComparator(machineSortType))
+                .skip(offset)
+                .limit(limit)
+                .toList();
+    }
+
+    @Override
     public Machine getMachineById(Long id) {
         if (machineRepositoryMap.containsKey(id)) {
             return machineRepositoryMap.get(id);
         } else {
             throw new IllegalArgumentException("ID doesn't exist");
         }
-
     }
 
     @Override
@@ -40,5 +52,26 @@ public class MachineRepositoryInMemory implements MachineRepository {
     @Override
     public void deleteMachineById(Long id) {
         machineRepositoryMap.remove(id);
+    }
+
+    private Comparator<Machine> getComparator(MachineSortType machineSortType) {
+        switch (machineSortType) {
+            case NAME_ASC:
+                return Comparator.comparing(Machine::getName);
+            case NAME_DESC:
+                return Comparator.comparing(Machine::getName).reversed();
+            case PRICE_ASC:
+                return Comparator.comparing(Machine::getPricePerDay);
+            case PRICE_DESC:
+                return Comparator.comparing(Machine::getPricePerDay).reversed();
+            default:
+                StringBuilder availableSortTypes = new StringBuilder();
+                Arrays.stream(MachineSortType.values())
+                        .forEach(sortType -> {
+                            availableSortTypes.append(sortType);
+                            availableSortTypes.append(", ");
+                        });
+                throw new InvalidMachineSortTypeException("Available sort types: " + availableSortTypes);
+        }
     }
 }
