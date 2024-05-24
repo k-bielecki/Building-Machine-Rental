@@ -1,12 +1,17 @@
 package com.myshop.machine.domain;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -21,18 +27,28 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Builder
-
+@Table(name = "machine")
 public class Machine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "price_per_day")
     private BigDecimal pricePerDay;
+
+    @Column(name = "is_rented")
     private Boolean rented;
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "condition")
     private MachineCondition condition;
-//    @Enumerated(EnumType.STRING)
-//    @OneToOne
-//    private MachineDetails details;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "details_id")
+    private MachineDetails details;
 }

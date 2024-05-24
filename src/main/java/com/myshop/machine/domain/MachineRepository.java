@@ -6,11 +6,13 @@ public interface MachineRepository {
 
     List<Machine> getAllMachines();
 
+    List<Machine> getAllMachinesSortedWithPagination(MachineSortType machineSortType, Long offset, Long limit);
+
     Machine getMachineById(Long id);
 
     Machine addMachine(Machine machine);
 
-    Machine updateMachine(Long id, Machine machine);
+    Machine updateMachine(Machine machine);
 
     void deleteMachineById(Long id);
 }
