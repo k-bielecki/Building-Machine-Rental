@@ -4,10 +4,16 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+
 class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final UserValidator userValidator;
+
+    public UserService(UserRepository userRepository, UserValidator userValidator) {
+        this.userRepository = userRepository;
+        this.userValidator = userValidator;
+    }
 
     List<User> getAllUsers(){
         return userRepository.getAllUsers();
@@ -18,6 +24,7 @@ class UserService {
     }
 
     User addUser(User user){
+        userValidator.validateNewUser(user);
         return userRepository.addUser(user);
     }
 
