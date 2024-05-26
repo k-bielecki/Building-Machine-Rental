@@ -1,4 +1,4 @@
-package com.myshop.user.infrastructure;
+package com.myshop.user.infrastructure.api;
 
 import com.myshop.user.domain.User;
 import com.myshop.user.domain.UserFacade;

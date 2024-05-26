@@ -1,4 +1,4 @@
-package com.myshop.user.infrastructure;
+package com.myshop.user.infrastructure.api;
 
 import lombok.Builder;
 import lombok.Getter;
