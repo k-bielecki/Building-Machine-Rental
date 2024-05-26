@@ -1,7 +1,5 @@
 package com.myshop.user.domain;
 
-import lombok.RequiredArgsConstructor;
-
 import java.util.List;
 
 
