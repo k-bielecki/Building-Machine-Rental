@@ -1,5 +1,7 @@
 package com.myshop.user.domain;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 
 
@@ -27,7 +29,8 @@ class UserService {
     }
 
     User updateUser(Long id, User user){
-        return userRepository.updateUser(id, user);
+        userValidator.validateUpdatedUser(id, user);
+        return userRepository.updateUser(user);
     }
 
     void deleteUser(Long id){
