@@ -2,9 +2,11 @@ package com.myshop.user.infrastructure.database;
 
 import com.myshop.user.domain.User;
 import com.myshop.user.domain.UserRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class UserPostgeSQLRepository implements UserRepository {
 
     private final UserPostgreSQLRepositoryInterface userPostgreSQLDatabase;
