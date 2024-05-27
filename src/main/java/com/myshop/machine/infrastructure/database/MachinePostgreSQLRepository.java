@@ -12,15 +12,15 @@ import java.util.List;
 @Repository
 public class MachinePostgreSQLRepository implements MachineRepository{
 
-    private final MachinePostgreSQLRepositoryInterface postgreSQLDatabase;
+    private final MachinePostgreSQLRepositoryInterface machinePostgreSQLDatabase;
 
-    public MachinePostgreSQLRepository(MachinePostgreSQLRepositoryInterface postgreSQLDatabase) {
-        this.postgreSQLDatabase = postgreSQLDatabase;
+    public MachinePostgreSQLRepository(MachinePostgreSQLRepositoryInterface machinePostgreSQLDatabase) {
+        this.machinePostgreSQLDatabase = machinePostgreSQLDatabase;
     }
 
     @Override
     public List<Machine> getAllMachines() {
-        return postgreSQLDatabase.findAll();
+        return machinePostgreSQLDatabase.findAll();
     }
 
     @Override
@@ -28,13 +28,13 @@ public class MachinePostgreSQLRepository implements MachineRepository{
 
         switch (machineSortType){
             case NAME_ASC:
-                return postgreSQLDatabase.findByNameAscendingWithPagination(offset, limit);
+                return machinePostgreSQLDatabase.findByNameAscendingWithPagination(offset, limit);
             case NAME_DESC:
-                return postgreSQLDatabase.findByNameDescendingWithPagination(offset, limit);
+                return machinePostgreSQLDatabase.findByNameDescendingWithPagination(offset, limit);
             case PRICE_ASC:
-                return postgreSQLDatabase.findByPriceAscendingWithPagination(offset, limit);
+                return machinePostgreSQLDatabase.findByPriceAscendingWithPagination(offset, limit);
             case PRICE_DESC:
-                return postgreSQLDatabase.findByPriceDescendingWithPagination(offset, limit);
+                return machinePostgreSQLDatabase.findByPriceDescendingWithPagination(offset, limit);
             default:
                 StringBuilder availableSortTypes = new StringBuilder();
                 Arrays.stream(MachineSortType.values())
@@ -48,21 +48,21 @@ public class MachinePostgreSQLRepository implements MachineRepository{
 
     @Override
     public Machine getMachineById(Long id) {
-        return postgreSQLDatabase.findById(id).orElseThrow();
+        return machinePostgreSQLDatabase.findById(id).orElseThrow();
     }
 
     @Override
     public Machine addMachine(Machine machine) {
-        return postgreSQLDatabase.save(machine);
+        return machinePostgreSQLDatabase.save(machine);
     }
 
     @Override
     public Machine updateMachine(Machine machine) {
-        return postgreSQLDatabase.save(machine);
+        return machinePostgreSQLDatabase.save(machine);
     }
 
     @Override
     public void deleteMachineById(Long id) {
-        postgreSQLDatabase.deleteById(id);
+        machinePostgreSQLDatabase.deleteById(id);
     }
 }
