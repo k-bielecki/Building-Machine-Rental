@@ -24,9 +24,9 @@ public class RentHistoryController {
         return rentHistoryFacade.getAllRentHistory();
     }
 
-    @GetMapping("/history/{id}")
+    @GetMapping("/history/{userId}")
     public List<RentHistory> getRentHistoryByUserId(@PathVariable Long userId) {
-        return rentHistoryFacade.getAllRentHistory();
+        return rentHistoryFacade.getRentHistoryByUser(userId);
     }
 
     @PostMapping("/history")
