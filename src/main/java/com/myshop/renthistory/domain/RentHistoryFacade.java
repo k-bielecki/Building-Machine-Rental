@@ -10,15 +10,15 @@ public class RentHistoryFacade {
         this.rentHistoryService = rentHistoryService;
     }
 
-    List<RentHistory> getAllRentHistory(){
+    public List<RentHistory> getAllRentHistory(){
         return rentHistoryService.getAllRentHistory();
     }
 
-    List<RentHistory> getRentHistoryByUser(Long userId){
+    public List<RentHistory> getRentHistoryByUser(Long userId){
         return rentHistoryService.getRentHistoryByUser(userId);
     }
 
-    RentHistory addRentHistory(RentHistory rentHistory){
+    public RentHistory addRentHistory(RentHistory rentHistory){
         return rentHistoryService.addRentHistory(rentHistory);
     }
 }
