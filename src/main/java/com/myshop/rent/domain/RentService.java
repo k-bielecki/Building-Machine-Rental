@@ -14,11 +14,13 @@ class RentService {
     private final RentRepository rentRepository;
     private final MachineFacade machineFacade;
     private final RentHistoryFacade rentHistoryFacade;
+    private final RentValidator rentValidator;
 
-    RentService(RentRepository rentRepository, MachineFacade machineFacade, RentHistoryFacade rentHistoryFacade) {
+    RentService(RentRepository rentRepository, MachineFacade machineFacade, RentHistoryFacade rentHistoryFacade, RentValidator rentValidator) {
         this.rentRepository = rentRepository;
         this.machineFacade = machineFacade;
         this.rentHistoryFacade = rentHistoryFacade;
+        this.rentValidator = rentValidator;
     }
 
     List<Rent> getAllRents() {
@@ -46,14 +48,16 @@ class RentService {
     }
 
     void rentMachine(Long machineId, Long userId) {
+        rentValidator.validateRent(machineId, userId);
         addRentToRepository(machineId, userId);
         setMachineStatusAsRented(machineId);
     }
 
     void returnMachine(Long machineId) {
+        rentValidator.validateReturn(machineId);
+        addRentToRentHistoryRepository(machineId);
         removeRentFromRepository(machineId);
         setMachineStatusAsReturned(machineId);
-        addRentToRentHistoryRepository(machineId);
     }
 
     private void addRentToRentHistoryRepository(Long machineId) {
