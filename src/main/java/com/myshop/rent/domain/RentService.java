@@ -31,7 +31,7 @@ class RentService {
         return rentRepository.getAllRentsByUserId(userId);
     }
 
-    List<Machine> getAllRentedMachine() {
+    List<Machine> getAllRentedMachines() {
         List<Machine> rentedMachines = new ArrayList<>();
         rentRepository.getAllRentedMachinesIds()
                 .forEach(machineId -> rentedMachines.add(machineFacade.getMachineById(machineId)));
