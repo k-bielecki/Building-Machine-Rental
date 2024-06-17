@@ -1,10 +1,15 @@
 package com.myshop.rent.domain;
 
+import lombok.Getter;
+
 import java.util.List;
 
-class InvalidRentException extends RuntimeException {
+@Getter
+public class InvalidRentException extends RuntimeException {
 
-    InvalidRentException(List<String> errors) {
-        super(errors.toString());
+    private final List<String> errors;
+
+    public InvalidRentException(List<String> errors) {
+        this.errors = errors;
     }
 }
