@@ -48,17 +48,17 @@ public class RentController {
     public ResponseEntity rentMachine(@RequestParam Long machineId, @RequestParam Long userId) {
         try {
             rentFacade.rentMachine(machineId, userId);
-        } catch (InvalidRentException exception){
+        } catch (InvalidRentException exception) {
             return ResponseEntity.badRequest().body(exception.getErrors());
         }
         return ResponseEntity.created(URI.create("/rent/" + machineId)).build();
     }
 
     @PutMapping("/return")
-    public ResponseEntity returnMachine(@RequestParam Long machineId){
+    public ResponseEntity returnMachine(@RequestParam Long machineId) {
         try {
             rentFacade.returnMachine(machineId);
-        } catch (InvalidRentException exception){
+        } catch (InvalidRentException exception) {
             return ResponseEntity.badRequest().body(exception.getErrors());
         }
         return ResponseEntity.ok().build();
