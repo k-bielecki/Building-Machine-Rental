@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.myshop.renthistory.infrastructure.api.RentHistoryMapper.*;
+
 @RestController
 public class RentHistoryController {
 
@@ -20,26 +22,23 @@ public class RentHistoryController {
     }
 
     @GetMapping("/history")
-    public List<RentHistory> getAllRentHistory() {
-        return rentHistoryFacade.getAllRentHistory();
+    public List<RentHistoryDto> getAllRentHistory() {
+        return rentHistoryFacade.getAllRentHistory().stream()
+                .map(rentHistory -> mapRentHistoryToDto(rentHistory))
+                .toList();
     }
 
     @GetMapping("/history/{userId}")
-    public List<RentHistory> getRentHistoryByUserId(@PathVariable Long userId) {
-        return rentHistoryFacade.getRentHistoryByUser(userId);
+    public List<RentHistoryDto> getRentHistoryByUserId(@PathVariable Long userId) {
+        return rentHistoryFacade.getRentHistoryByUser(userId).stream()
+                .map(rentHistory -> mapRentHistoryToDto(rentHistory))
+                .toList();
     }
 
     @PostMapping("/history")
     public RentHistory addRentHistory(@RequestBody RentHistoryDto rentHistoryDto) {
-        return rentHistoryFacade.addRentHistory(mapFromDto(rentHistoryDto));
+        return rentHistoryFacade.addRentHistory(mapRentHistoryFromDto(rentHistoryDto));
     }
 
-    private RentHistory mapFromDto(RentHistoryDto rentHistoryDto) {
-        return RentHistory.builder()
-                .userId(rentHistoryDto.userId())
-                .machineId(rentHistoryDto.machineId())
-                .rentedDate(rentHistoryDto.rentedDate())
-                .returnedDate(rentHistoryDto.returnedDate())
-                .build();
-    }
+
 }

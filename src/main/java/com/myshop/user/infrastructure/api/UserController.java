@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.myshop.user.infrastructure.api.UserMapper.*;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -25,38 +27,31 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers(){
-        return userFacade.getAllUsers();
+    public List<UserDto> getAllUsers() {
+        return userFacade.getAllUsers().stream()
+                .map(user -> mapUserToDto(user))
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable Long id){
-        return userFacade.getUser(id);
+    public UserDto getUser(@PathVariable Long id) {
+        return mapUserToDto(userFacade.getUser(id));
     }
 
     @PostMapping
-    public User addUser(@RequestBody UserDto userDto){
-        return userFacade.addUser(mapUser(userDto,EMPTY_ID));
+    public User addUser(@RequestBody UserDto userDto) {
+        return userFacade.addUser(mapUserFromDto(userDto, EMPTY_ID));
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody UserDto userDto){
-        return userFacade.updateUser(id, mapUser(userDto, id));
+    public User updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+        return userFacade.updateUser(id, mapUserFromDto(userDto, id));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(Long id){
+    public void deleteUser(Long id) {
         userFacade.deleteUser(id);
     }
 
-    private static User mapUser(UserDto userDto, Long id){
-        return User.builder()
-                .userId(id)
-                .firstName(userDto.getFirstName())
-                .lastName(userDto.getLastName())
-                .email(userDto.getEmail())
-                .nickname(userDto.getNickname())
-                .password(userDto.getPassword())
-                .build();
-    }
+
 }

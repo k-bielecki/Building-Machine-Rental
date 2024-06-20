@@ -1,10 +1,8 @@
 package com.myshop.rent.infrastructure.api;
 
-import com.myshop.machine.domain.Machine;
-import com.myshop.machine.infrastructure.api.MachineDetailsDto;
 import com.myshop.machine.infrastructure.api.MachineDto;
+import com.myshop.machine.infrastructure.api.MachineMapper;
 import com.myshop.rent.domain.InvalidRentException;
-import com.myshop.rent.domain.Rent;
 import com.myshop.rent.domain.RentFacade;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.util.List;
+
+import static com.myshop.rent.infrastructure.api.RentMapper.*;
 
 @RestController
 public class RentController {
@@ -29,50 +29,28 @@ public class RentController {
     @GetMapping("/rents")
     public List<RentDto> getAllRents() {
         return rentFacade.getAllRents().stream()
-                .map(rent -> toDto(rent))
+                .map(rent -> mapRentToDto(rent))
                 .toList();
     }
 
     @GetMapping("/rents/{userId}")
     public List<RentDto> getAllRentsByUserId(@PathVariable Long userId) {
         return rentFacade.getAllRentsByUser(userId).stream()
-                .map(rent -> toDto(rent))
+                .map(rent -> mapRentToDto(rent))
                 .toList();
     }
 
     @GetMapping("/rents/machines")
     public List<MachineDto> getAllRentedMachines() {
         return rentFacade.getAllRentedMachines().stream()
-                .map(machine -> MachineDto.builder()
-                        .name(machine.getName())
-                        .pricePerDay(machine.getPricePerDay())
-                        .rented(machine.getRented())
-                        .condition(machine.getCondition())
-                        .detailsDto(MachineDetailsDto.builder()
-                                .machineHour(machine.getDetails().getMachineHour())
-                                .weight(machine.getDetails().getWeight())
-                                .horsePower(machine.getDetails().getHorsePower())
-                                .category(machine.getDetails().getCategory())
-                                .build())
-                        .build())
+                .map(machine -> MachineMapper.mapMachineToDto(machine))
                 .toList();
     }
 
     @GetMapping("/rents/machines/{userId}")
     public List<MachineDto> getAllRentedMachinesByUser(@PathVariable Long userId) {
         return rentFacade.getAllRentedMachinesByUser(userId).stream()
-                .map(machine -> MachineDto.builder()
-                        .name(machine.getName())
-                        .pricePerDay(machine.getPricePerDay())
-                        .rented(machine.getRented())
-                        .condition(machine.getCondition())
-                        .detailsDto(MachineDetailsDto.builder()
-                                .machineHour(machine.getDetails().getMachineHour())
-                                .weight(machine.getDetails().getWeight())
-                                .horsePower(machine.getDetails().getHorsePower())
-                                .category(machine.getDetails().getCategory())
-                                .build())
-                        .build())
+                .map(machine -> MachineMapper.mapMachineToDto(machine))
                 .toList();
     }
 
@@ -96,9 +74,7 @@ public class RentController {
         return ResponseEntity.ok().build();
     }
 
-    private RentDto toDto(Rent rent) {
-        return new RentDto(rent.getUserId(), rent.getMachineId());
-    }
+
 
 
 }

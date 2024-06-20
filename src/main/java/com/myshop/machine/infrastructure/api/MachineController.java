@@ -1,7 +1,6 @@
 package com.myshop.machine.infrastructure.api;
 
 import com.myshop.machine.domain.Machine;
-import com.myshop.machine.domain.MachineDetails;
 import com.myshop.machine.domain.MachineFacade;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static com.myshop.machine.infrastructure.api.MachineMapper.*;
 
 @RestController
 public class MachineController {
@@ -30,50 +31,34 @@ public class MachineController {
 //    }
 
     @GetMapping("/machines")
-    public List<Machine> getSortedMachines (@RequestParam(value = "sortType", required = false, defaultValue = "NAME_ASC") String machineSortType,
-                                            @RequestParam(value = "offset", required = false, defaultValue = "0") Long offset,
-                                            @RequestParam(value = "limit", required = false, defaultValue = "25") Long limit){
-        return machineFacade.getSortedMachines(machineSortType, offset, limit);
+    public List<MachineDto> getSortedMachines(@RequestParam(value = "sortType", required = false, defaultValue = "NAME_ASC") String machineSortType,
+                                           @RequestParam(value = "offset", required = false, defaultValue = "0") Long offset,
+                                           @RequestParam(value = "limit", required = false, defaultValue = "25") Long limit) {
+        return machineFacade.getSortedMachines(machineSortType, offset, limit).stream()
+                .map(machine -> mapMachineToDto(machine))
+                .toList();
     }
 
     @GetMapping("/machines/{id}")
-    public Machine getMachineById(@PathVariable Long id) {
-        return machineFacade.getMachineById(id);
+    public MachineDto getMachineById(@PathVariable Long id) {
+        return mapMachineToDto(machineFacade.getMachineById(id));
     }
 
     @PostMapping("/machines")
-    public Machine addMachine(@RequestBody MachineDto machineDto){
-
-        return machineFacade.addMachine(mapMachine(machineDto, EMPTY_ID));
+    public Machine addMachine(@RequestBody MachineDto machineDto) {
+        return machineFacade.addMachine(mapMachineFromDto(machineDto, EMPTY_ID));
     }
 
+
     @PutMapping("/machines/{id}")
-    public Machine updateMachine(@PathVariable Long id, @RequestBody MachineDto machineDto){
-        return machineFacade.updateMachine(mapMachine(machineDto, id));
+    public Machine updateMachine(@PathVariable Long id, @RequestBody MachineDto machineDto) {
+        return machineFacade.updateMachine(mapMachineFromDto(machineDto, id));
     }
 
     @DeleteMapping("/machines/{id}")
-    public void deleteMachine(@PathVariable Long id){
+    public void deleteMachine(@PathVariable Long id) {
         machineFacade.deleteMachineById(id);
     }
 
-    private static Machine mapMachine(MachineDto machineDto, Long id){
-        return Machine.builder()
-                .id(id)
-                .name(machineDto.getName())
-                .pricePerDay(machineDto.getPricePerDay())
-                .rented(machineDto.isRented())
-                .condition(machineDto.getCondition())
-                .details(mapMachineDetails(machineDto.getDetailsDto()))
-                .build();
-    }
 
-    private static MachineDetails mapMachineDetails(MachineDetailsDto machineDetailsDto){
-        return MachineDetails.builder()
-                .machineHour(machineDetailsDto.getMachineHour())
-                .weight(machineDetailsDto.getWeight())
-                .horsePower(machineDetailsDto.getHorsePower())
-                .category(machineDetailsDto.getCategory())
-                .build();
-    }
 }
