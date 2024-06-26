@@ -8,7 +8,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MachineFacadeTest {
 
@@ -59,7 +61,7 @@ class MachineFacadeTest {
             //given
 
             //when
-            List<Machine> machines =  machineFacade.getAllMachines();
+            List<Machine> machines = machineFacade.getAllMachines();
             //then
             assertThat(machines).hasSize(3);
         }
@@ -75,7 +77,7 @@ class MachineFacadeTest {
         }
 
         @Test
-        void shouldAddMachine(){
+        void shouldAddMachine() {
             //given
             Machine newMachine = Machine.builder()
                     .id(4L)
@@ -105,12 +107,68 @@ class MachineFacadeTest {
         }
 
         @Test
-        void shouldDeleteMachineById(){
+        void shouldDeleteMachineById() {
             //given
             //when
             machineFacade.deleteMachineById(1L);
             //then
             assertThat(machineFacade.getAllMachines()).hasSize(2);
+        }
+
+        @Test
+        void shouldGetAllMachinesSortedAscendingByName() {
+            //given
+            //when
+            List<Machine> machinesSortedAscending = machineFacade.getSortedMachines("NAME_ASC", 0L, 25L);
+            //then
+            assertAll(
+                    () -> assertTrue(machinesSortedAscending.get(0).getName().startsWith("C")),
+                    () -> assertTrue(machinesSortedAscending.get(1).getName().startsWith("J")),
+                    () -> assertTrue(machinesSortedAscending.get(2).getName().startsWith("K")),
+                    () -> assertEquals(3, machinesSortedAscending.size())
+            );
+        }
+
+        @Test
+        void shouldGetAllMachinesSortedDescendingByName() {
+            //given
+            //when
+            List<Machine> machinesSortedAscending = machineFacade.getSortedMachines("NAME_DESC", 0L, 25L);
+            //then
+            assertAll(
+                    () -> assertTrue(machinesSortedAscending.get(0).getName().startsWith("K")),
+                    () -> assertTrue(machinesSortedAscending.get(1).getName().startsWith("J")),
+                    () -> assertTrue(machinesSortedAscending.get(2).getName().startsWith("C")),
+                    () -> assertEquals(3, machinesSortedAscending.size())
+            );
+        }
+
+        @Test
+        void shouldGetAllMachinesSortedAscendingByPrice() {
+            //given
+            //when
+            List<Machine> machinesSortedAscending = machineFacade.getSortedMachines("PRICE_ASC", 0L, 25L);
+            //then
+            assertAll(
+                    () -> assertTrue(machinesSortedAscending.get(0).getName().startsWith("K")),
+                    () -> assertTrue(machinesSortedAscending.get(1).getName().startsWith("C")),
+                    () -> assertTrue(machinesSortedAscending.get(2).getName().startsWith("J")),
+                    () -> assertEquals(3, machinesSortedAscending.size())
+            );
+        }
+
+        @Test
+        void shouldGetAllMachinesSortedDescendingByPrice() {
+            //given
+            //when
+            List<Machine> machinesSortedAscending = machineFacade.getSortedMachines("PRICE_DESC", 0L, 25L);
+            //then
+            assertAll(
+                    () -> assertTrue(machinesSortedAscending.get(0).getName().startsWith("J")),
+                    () -> assertTrue(machinesSortedAscending.get(1).getName().startsWith("C")),
+                    () -> assertTrue(machinesSortedAscending.get(2).getName().startsWith("K")),
+                    () -> assertEquals(3, machinesSortedAscending.size())
+            );
         }
     }
 }

@@ -8,7 +8,7 @@ public class RentFacade {
 
     private final RentService rentService;
 
-    public RentFacade(RentService rentService) {
+    RentFacade(RentService rentService) {
         this.rentService = rentService;
     }
 
