@@ -27,45 +27,55 @@ public class RentController {
     }
 
     @GetMapping("/rents")
-    public List<RentDto> getAllRents() {
-        return rentFacade.getAllRents().stream()
-                .map(rent -> mapRentToDto(rent))
+    public ResponseEntity<List<RentDto>> getAllRents() {
+        List<RentDto> response = rentFacade.getAllRents().stream()
+                .map(RentMapper::mapRentToDto)
                 .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/rents/{userId}")
-    public List<RentDto> getAllRentsByUserId(@PathVariable Long userId) {
-        return rentFacade.getAllRentsByUser(userId).stream()
-                .map(rent -> mapRentToDto(rent))
+    public ResponseEntity<List<RentDto>> getAllRentsByUserId(@PathVariable Long userId) {
+        List<RentDto> response = rentFacade.getAllRentsByUser(userId).stream()
+                .map(RentMapper::mapRentToDto)
                 .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/rents/machines")
-    public List<MachineDto> getAllRentedMachines() {
-        return rentFacade.getAllRentedMachines().stream()
-                .map(machine -> MachineMapper.mapMachineToDto(machine))
+    public ResponseEntity<List<MachineDto>> getAllRentedMachines() {
+        List<MachineDto> response = rentFacade.getAllRentedMachines().stream()
+                .map(MachineMapper::mapMachineToDto)
                 .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/rents/machines/{userId}")
-    public List<MachineDto> getAllRentedMachinesByUser(@PathVariable Long userId) {
-        return rentFacade.getAllRentedMachinesByUser(userId).stream()
-                .map(machine -> MachineMapper.mapMachineToDto(machine))
+    public ResponseEntity<List<MachineDto>> getAllRentedMachinesByUser(@PathVariable Long userId) {
+        List<MachineDto> response = rentFacade.getAllRentedMachinesByUser(userId).stream()
+                .map(MachineMapper::mapMachineToDto)
                 .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/rent")
-    public ResponseEntity rentMachine(@RequestParam Long machineId, @RequestParam Long userId) {
+    public ResponseEntity<?> rentMachine(@RequestParam Long machineId, @RequestParam Long userId) {
         try {
             rentFacade.rentMachine(machineId, userId);
         } catch (InvalidRentException exception) {
             return ResponseEntity.badRequest().body(exception.getErrors());
         }
-        return ResponseEntity.created(URI.create("/rent/" + machineId)).build();
+        URI uri = URI.create("/rent/" + machineId);
+
+        return ResponseEntity.created(uri).build();
     }
 
     @PutMapping("/return")
-    public ResponseEntity returnMachine(@RequestParam Long machineId) {
+    public ResponseEntity<?> returnMachine(@RequestParam Long machineId) {
         try {
             rentFacade.returnMachine(machineId);
         } catch (InvalidRentException exception) {
@@ -73,8 +83,5 @@ public class RentController {
         }
         return ResponseEntity.ok().build();
     }
-
-
-
 
 }
