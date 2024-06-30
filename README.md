@@ -39,7 +39,7 @@ It takes some time to build the images and run containers, but once it's done ap
 ## 🎯 Functionalities 🎯
 In current state of the app, all endpoints are accessible via HTTP requests on localhost:8080.
 For your convenience, the application includes built-in Swagger, which allows you to access all the endpoints.
-Additionally, the database will be filled with sample data upon startup.
+Additionally, the database is filled with sample data upon startup.
 
 `http://localhost:8080/swagger-ui/index.html`
 
