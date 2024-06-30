@@ -5,7 +5,7 @@ Building Machine Rental, which is a REST API with hexagonal architecture, develo
 App enables renting and returning machines, browsing machines with details and much more. This version is also containerised, saving precious time wasted for installation and configuration of the environment and database. Testcontainers is used for integration testing purpose. 
 
 <!-- Build With -->
-### 🔨 Built With 🔨
+## 🔨 Built With 🔨
 * Java 21
 * Maven
 * PostgreSQL Database
