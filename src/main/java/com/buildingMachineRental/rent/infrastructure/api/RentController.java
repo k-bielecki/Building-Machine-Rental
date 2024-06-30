@@ -69,7 +69,7 @@ public class RentController {
         } catch (InvalidRentException exception) {
             return ResponseEntity.badRequest().body(exception.getErrors());
         }
-        URI uri = URI.create("/rent/" + machineId);
+        URI uri = URI.create("/rents/" + machineId);
 
         return ResponseEntity.created(uri).build();
     }

@@ -3,6 +3,7 @@ package com.buildingMachineRental.rent.infrastructure.database;
 import com.buildingMachineRental.rent.domain.Rent;
 import com.buildingMachineRental.rent.domain.RentRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class RentPostgreSQLRepository implements RentRepository {
     @Override
     public List<Long> getAllRentedMachinesIds() {
         return postgreSQLRepositoryDatabase.findAll().stream()
-                .map(rent -> rent.getMachineId())
+                .map(Rent::getMachineId)
                 .toList();
     }
 
@@ -41,16 +42,18 @@ public class RentPostgreSQLRepository implements RentRepository {
     public List<Long> getAllRentedMachinesIdsByUser(Long userId) {
         return postgreSQLRepositoryDatabase.findAll().stream()
                 .filter(rent -> rent.getUserId().equals(userId))
-                .map(rent -> rent.getMachineId())
+                .map(Rent::getMachineId)
                 .toList();
     }
 
     @Override
+    @Transactional
     public Rent addRent(Rent rent) {
         return postgreSQLRepositoryDatabase.save(rent);
     }
 
     @Override
+    @Transactional
     public void deleteRent(Long machineId) {
         postgreSQLRepositoryDatabase.deleteByMachineId(machineId);
     }
