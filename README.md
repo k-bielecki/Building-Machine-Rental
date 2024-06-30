@@ -4,6 +4,7 @@
 Building Machine Rental, which is a REST API with hexagonal architecture, developed using Spring Framework. During creation of the application I did my best to follow both Clean Code and SOLID principles, and have used design patterns and technologies that constitute the backbone of modern web development. These includes Spring Boot, Spring Data JPA, Lombok. JUnit and Mockito were used for testing. The application is connected to the PostgreSQL, which serves as a database. It is managed by Liquibase.
 App enables renting and returning machines, browsing machines with details and much more. This version is also containerised, saving precious time wasted for installation and configuration of the environment and database. Testcontainers is used for integration testing purpose. 
 
+<!-- Build With -->
 ### 🔨 Built With 🔨
 * Java 21
 * Maven
